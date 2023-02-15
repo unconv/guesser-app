@@ -52,7 +52,7 @@ class Guess {
                 $this->points[$thing_id] += $points_to_add;
             } elseif( $yes === false ) {
                 file_put_contents( "log.txt", "Substracting points from " . $thing->name.PHP_EOL, FILE_APPEND );
-                $this->points[$thing_id] -= $points_to_add;
+                $this->points[$thing_id] -= $points_to_add*2;
             }
         }
 
