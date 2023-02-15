@@ -1,4 +1,11 @@
 <?php
+/**
+ * This script is used to train the guesser with OpenAI
+ *
+ * It reads a list of words to train from list.txt
+ * The file can be comma, semicolon or newline separated
+ */
+
 ( PHP_SAPI !== 'cli' || isset( $_SERVER['HTTP_USER_AGENT'] ) ) && exit;
 
 use ChatWTF\TopCategorizerChatWTF;

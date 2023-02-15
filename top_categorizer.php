@@ -1,4 +1,11 @@
 <?php
+/**
+ * This script geneates top level categories for all categories.
+ *
+ * This was created only to create top level categories when
+ * train.php did not create them yet. Now it does that already.
+ */
+
 ( PHP_SAPI !== 'cli' || isset( $_SERVER['HTTP_USER_AGENT'] ) ) && exit;
 
 use ChatWTF\CategorizerChatWTF;
