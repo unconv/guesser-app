@@ -3,6 +3,8 @@ require_once( __DIR__ . "/vendor/autoload.php" );
 require_once( __DIR__ . "/error_handler.php" );
 require_once( __DIR__ . "/db.php" );
 
+session_start();
+
 header( "Content-Type: application/json" );
 
 function error() {
@@ -15,8 +17,8 @@ function error() {
     ] ) );
 }
 
-if ( file_exists( "guess.txt" ) ) {
-    $guess = Guess::from_json( $db, file_get_contents( "guess.txt" ) );
+if ( ! empty( $_SESSION['guess'] ) ) {
+    $guess = Guess::from_session( $db );
 } else {
     $guess = new Guess( $db );
 }

@@ -160,36 +160,39 @@ class Guess {
     }
 
     public function save() {
-        file_put_contents( "guess.txt", $this->create_json() );
-    }
-
-    public function clear() {
-        file_put_contents( "guess.txt", "" );
-    }
-
-    /**
-     * Creates a JSON representation of the points and the questions
-     * so that they can be loaded with from_json later
-     */
-    public function create_json(): string {
-        return json_encode([
+        $_SESSION['guess'] = [
             'questions' => $this->questions,
             'points' => $this->points,
             'guessed_categories' => $this->guessed_categories,
             'categories' => $this->categories,
-        ]);
+        ];
+
+        error_log( "saving session..." );
+    }
+
+    public function clear() {
+        $_SESSION['guess'] = "";
     }
 
     /**
-     * Create a Guess object from json
+     * Create a Guess object from session
      */
-    public static function from_json( PDO $db, string $json ) {
-        $data = json_decode( $json, true );
+    public static function from_session( PDO $db ): static {
+        $data = $_SESSION['guess'] ?? [];
+
+        error_log("loading from session...");
+
         $questions = $data['questions'] ?? [];
         $points = $data['points'] ?? [];
         $guessed_categories = $data['guessed_categories'] ?? [];
         $categories = $data['categories'] ?? [];
 
-        return new Guess( $db, $questions, $points, $guessed_categories, $categories );
+        return new Guess(
+            db: $db,
+            questions: $questions,
+            points: $points,
+            guessed_categories: $guessed_categories,
+            categories: $categories
+        );
     }
 }

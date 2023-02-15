@@ -1,6 +1,6 @@
 <?php
-// empty guess
-file_put_contents( "guess.txt", "" );
+session_start();
+$_SESSION['guess'] = "";
 
 require_once( __DIR__ . "/vendor/autoload.php" );
 ?><!DOCTYPE html>
