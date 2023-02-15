@@ -77,21 +77,22 @@ class Question {
         $thing_id_query = "";
         $next_guess = $guess->next_guess();
         if( $next_guess ) {
-            $order_query = "answers.thing_id = :thing_id DESC, ";
             $exec[":thing_id"] = $next_guess->id;
-            $thing_id_query = ", answers.thing_id = :thing_id AS is_guess";
+            $thing_id_query = ", questions.question_id IN (SELECT question_id FROM answers where thing_id = :thing_id) AS is_guess";
+            $order_query = "is_guess DESC, ";
             file_put_contents( "log.txt", "Next guess: " . $next_guess->name.PHP_EOL, FILE_APPEND );
         }
 
         $stmt = $db->prepare(
-            "SELECT questions.question_id AS question_id,
-                    questions.question_text AS question_text
+            "SELECT answers.question_id,
+                    questions.question_text,
+                    COUNT(*)
                     ".$thing_id_query."
-            FROM    questions
-            LEFT JOIN answers ON answers.question_id = questions.question_id
-            ".$exclude_query."
-            ORDER BY ".$order_query."RAND()
-            LIMIT 1"
+            FROM    answers
+            LEFT JOIN questions ON questions.question_id = answers.question_id
+                    ".$exclude_query."
+            GROUP BY answers.question_id
+            ORDER BY ".$order_query."`COUNT(*)` DESC, RAND();"
         );
 
         $stmt->execute( $exec );
