@@ -54,8 +54,7 @@ if( $_POST['question_id'] ) {
 // ask for categories first
 if (
     count( $guess->guessed_categories ) < 5 ||
-    ( count( $guess->questions ) + count( $guess->guessed_categories ) ) % 5 === 0 ||
-    ! $guess->current_guess()
+    ( count( $guess->questions ) + count( $guess->guessed_categories ) ) % 5 === 0
 ) {
     // ask a new question
     $category = Category::fetchRandom( $guess, $db );

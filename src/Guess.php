@@ -126,6 +126,11 @@ class Guess {
         }
 
         $current_guess = $this->current_guess();
+
+        if( ! $current_guess ) {
+            return 0;
+        }
+
         $questions = $current_guess->get_thing()->question_ids();
         $question_count = count( $questions );
 
