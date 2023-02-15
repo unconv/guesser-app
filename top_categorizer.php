@@ -1,4 +1,6 @@
 <?php
+( PHP_SAPI !== 'cli' || isset( $_SERVER['HTTP_USER_AGENT'] ) ) && exit;
+
 use ChatWTF\CategorizerChatWTF;
 use ChatWTF\TopCategorizerChatWTF;
 use ChatWTF\QuestionerChatWTF;
