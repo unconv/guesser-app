@@ -127,8 +127,13 @@ class Guess {
 
         $current_guess = $this->current_guess();
         $questions = $current_guess->get_thing()->question_ids();
+        $question_count = count( $questions );
 
-        return intval( $points_difference / count( $questions ) * 100 );
+        if( $question_count > 20 ) {
+            $question_count = 20;
+        }
+
+        return intval( $points_difference / $question_count * 100 );
     }
 
     /**
