@@ -30,9 +30,10 @@ foreach( $words as $word ) {
     $word = trim( rtrim( $word ) );
 
     echo "Training $word ...\n";
+
     try {
         $trainer->train( $word );
     } catch (\Throwable $e) {
-	echo "ERROR\n";
+	    echo "ERROR\n";
     }
 }
