@@ -29,7 +29,7 @@ $trainer = new Trainer(
     topcategorizer: $topcategorizer,
 );
 
-$words = explode( ", ", file_get_contents( "list.txt" ) );
+$words = preg_split( "/[,;\n]/", file_get_contents( "list.txt" ) );
 $words = array_unique( $words );
 shuffle( $words );
 
