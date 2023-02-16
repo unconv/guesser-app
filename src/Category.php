@@ -72,10 +72,13 @@ class Category {
             "SELECT DISTINCT thing_id
             FROM    thing_categories
             WHERE   category_id IN (
-                SELECT category_id
-                FROM   categories
-                WHERE  category_id = :id OR
-                       parent_category_id = :id
+                SELECT    thing_categories.category_id
+                FROM      thing_categories
+                LEFT JOIN categories ON thing_categories.category_id = categories.category_id
+                WHERE     categories.category_id = :id OR
+                          categories.parent_category_id = :id
+                GROUP BY  categories.category_id
+                HAVING    COUNT(*) > 3
             )"
         );
 
