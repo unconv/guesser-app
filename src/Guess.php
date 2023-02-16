@@ -143,20 +143,75 @@ class Guess {
 
     /**
      * Get the top X guesses
+     *
+     * @return Thing[]
      */
-    public function top_X( int $x ): string {
+    public function top_X( int $x ): array {
         arsort( $this->points );
         $values = array_keys( $this->points );
         $values = array_slice( $values, 0, $x );
 
-        $top5 = [];
+        $topX = [];
 
         foreach( $values as $value ) {
             $thing = Thing::load( $value, $this->db );
-            $top5[] = $thing->name;
+            $topX[] = $thing;
         }
 
-        return implode( ", ", $top5 );
+        return $topX;
+    }
+
+    /**
+     * Gets all the guesses that have the most points
+     * and that have unanswered questions left
+     *
+     * @return Thing[]
+     */
+    public function best_guesses(): array {
+        arsort( $this->points );
+
+        $top = [];
+        $prev_points = null;
+
+        foreach( $this->points as $thing_id => $points ) {
+            if( $prev_points !== null && $points !== $prev_points ) {
+                break;
+            }
+
+            $thing = Thing::load( $thing_id, $this->db );
+            $diff = array_diff( $thing->question_ids(), $this->questions );
+
+            if ( count( $diff ) ) {
+                $top[] = $thing;
+                $prev_points = $points;
+            }
+        }
+
+        return $top;
+    }
+
+    /**
+     * Gets the category that includes most of the
+     * best guesses
+     */
+    public function best_category(): int|null {
+        $best_categories = [];
+        foreach( $this->best_guesses() as $thing ) {
+            $cats = $thing->category_ids();
+            foreach( $cats as $cat_id ) {
+                if( in_array( $cat_id, $this->guessed_categories ) ) {
+                    continue;
+                }
+                if( ! isset( $best_categories[$cat_id] ) ) {
+                    $best_categories[$cat_id] = 0;
+                }
+                $best_categories[$cat_id]++;
+            }
+        }
+
+        arsort( $best_categories );
+
+        return key( $best_categories );
     }
 
     public function save() {

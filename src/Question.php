@@ -75,12 +75,11 @@ class Question {
         $order_query = "";
 
         $thing_id_query = "";
-        $next_guess = $guess->next_guess();
-        if( $next_guess ) {
-            $exec[":thing_id"] = $next_guess->id;
-            $thing_id_query = ", questions.question_id IN (SELECT question_id FROM answers where thing_id = :thing_id) AS is_guess";
+        $best_guesses = $guess->best_guesses();
+        if( count( $best_guesses ) ) {
+            $best_guess_ids = array_map( fn( $thing ) => $thing->id, $best_guesses );
+            $thing_id_query = ", questions.question_id IN (SELECT question_id FROM answers WHERE thing_id IN (".implode( ", ", $best_guess_ids ).")) AS is_guess";
             $order_query = "is_guess DESC, ";
-            file_put_contents( "log.txt", "Next guess: " . $next_guess->name.PHP_EOL, FILE_APPEND );
         }
 
         $stmt = $db->prepare(
@@ -92,16 +91,12 @@ class Question {
             LEFT JOIN questions ON questions.question_id = answers.question_id
                     ".$exclude_query."
             GROUP BY answers.question_id
-            ORDER BY ".$order_query."`COUNT(*)` DESC, RAND();"
+            ORDER BY ".$order_query." RAND();"
         );
 
         $stmt->execute( $exec );
 
         $row = $stmt->fetch( PDO::FETCH_ASSOC );
-
-        if( $next_guess && ! $row['is_guess'] ) {
-            $guess->points[$next_guess->id] = -20;
-        }
 
         $question = new Question(
             db: $db,

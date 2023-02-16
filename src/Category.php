@@ -150,29 +150,38 @@ class Category {
             $exclude_query = " WHERE categories.category_id NOT IN (".implode( ", ", $exclude ).")";
         }
 
-        $parents = implode( ", ", $guess->categories );
-        if( ! $parents ) {
-            $parents = "0";
+        $exec[":best_category"] = $guess->best_category();
+
+        $best_guesses = $guess->best_guesses();
+        $thing_ids = array_map( fn( $thing ) => $thing->id, $best_guesses );
+        $thing_ids = implode( ", ", $thing_ids );
+
+        if( ! $thing_ids ) {
+            $thing_ids = "0";
         }
 
         $stmt = $db->prepare(
             "SELECT categories.category_id AS category_id,
                     categories.category_name AS category_name,
                     categories.parent_category_id AS parent_category_id,
-                    COUNT(*) AS thing_count
+                    COUNT(*) AS thing_count,
+                    categories.parent_category_id = 0 AS is_top_category,
+                    categories.category_id = :best_category AS is_best_category,
+                    categories.category_id IN (
+                        SELECT thing_categories.category_id
+                        FROM   thing_categories
+                        WHERE  thing_id IN (
+                            ".$thing_ids."
+                        )
+                    ) AS is_thing_category
             FROM    categories
             LEFT JOIN thing_categories ON thing_categories.category_id = categories.category_id
             ".$exclude_query."
             GROUP BY categories.category_id
             HAVING (thing_count > 3 OR categories.parent_category_id = 0)
-            ORDER BY categories.parent_category_id = 0 DESC,
-                     categories.category_id IN (
-                        SELECT category_id
-                        FROM   categories
-                        WHERE  parent_category_id IN (
-                            ".$parents."
-                        )
-                     ) DESC,
+            ORDER BY is_top_category DESC,
+                     is_best_category DESC,
+                     is_thing_category DESC,
                      RAND()
             LIMIT 1"
         );
@@ -182,6 +191,10 @@ class Category {
         $row = $stmt->fetch( PDO::FETCH_ASSOC );
 
         if( ! $row ) {
+            return null;
+        }
+
+        if( ! $row['is_top_category'] && ! $row['is_best_category'] && ! $row['is_thing_category'] ) {
             return null;
         }
 

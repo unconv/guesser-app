@@ -86,4 +86,21 @@ class Thing {
 
         return $stmt->fetchAll( PDO::FETCH_COLUMN );
     }
+
+    /**
+     * @return int[] an array of category ids
+     */
+    public function category_ids(): array {
+        $stmt = $this->db->prepare(
+            "SELECT category_id
+            FROM    thing_categories
+            WHERE   thing_id = :thing_id"
+        );
+
+        $stmt->execute( [
+            ":thing_id" => $this->id,
+        ] );
+
+        return $stmt->fetchAll( PDO::FETCH_COLUMN );
+    }
 }
