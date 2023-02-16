@@ -81,14 +81,7 @@ if ( ! count( $guess->categories ) || count( $guess->best_guesses() ) >= 5 ) {
 
 $confidence = $guess->get_confidence();
 
-if (
-    $confidence >= 8 && count( $guess->questions ) > 0 ||
-    $confidence >= 7 && count( $guess->questions ) > 15 ||
-    $confidence >= 6 && count( $guess->questions ) > 20 ||
-    $confidence >= 6 && count( $guess->questions ) > 25 ||
-    $confidence >= 5 && count( $guess->questions ) > 35 ||
-    $confidence >= 4 && count( $guess->questions ) > 40
-) {
+if ( $confidence >= 12 ) {
     $thing_name = $guess->current_guess()?->get_thing()->name;
     // return response
     echo json_encode([

@@ -37,6 +37,11 @@ class Guess {
         $things = $question->fetchThings();
 
         $points_to_add = 1;
+        if( count( $this->questions ) > 30 ) {
+            $points_to_add = 3;
+        } elseif( count( $this->questions ) > 20 ) {
+            $points_to_add = 2;
+        }
 
         foreach( $things as $thing_id ) {
             if ( ! array_key_exists( $thing_id, $this->points ) ) {
