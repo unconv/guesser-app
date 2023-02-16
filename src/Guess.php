@@ -36,22 +36,16 @@ class Guess {
 
         $things = $question->fetchThings();
 
-        $points_to_add = $question instanceof Question ? 1 : 3;
-
-        file_put_contents( "log.txt", $question->name ?? $question->text.PHP_EOL, FILE_APPEND );
+        $points_to_add = 1;
 
         foreach( $things as $thing_id ) {
             if ( ! array_key_exists( $thing_id, $this->points ) ) {
                 $this->points[$thing_id] = 0;
             }
 
-            $thing = Thing::load( $thing_id, $this->db );
-
             if ( $yes === true ) {
-                file_put_contents( "log.txt", "Adding points for " . $thing->name.PHP_EOL, FILE_APPEND );
                 $this->points[$thing_id] += $points_to_add;
             } elseif( $yes === false ) {
-                file_put_contents( "log.txt", "Substracting points from " . $thing->name.PHP_EOL, FILE_APPEND );
                 $this->points[$thing_id] -= $points_to_add*2;
             }
         }
