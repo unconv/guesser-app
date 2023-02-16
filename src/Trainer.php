@@ -97,25 +97,7 @@ class Trainer {
             return $this->create_questions( $word );
         }
         
-        $questions = explode( "\n", $response );
-
-        // trim
-        $questions = array_map(
-            fn( $item ) => trim( trim( trim( rtrim( $item ) ), "-." ) ),
-            $questions
-        );
-
-        // remove questions that have $word in them
-        $questions = array_filter(
-            $questions,
-            fn( $item ) => stripos( $item, $word ) === false
-        );
-
-        // remove empty questions
-        $questions = array_filter(
-            $questions,
-            fn( $item ) => ! empty( $item )
-        );
+        $questions = $this->filter_list( $response );
 
         return $questions;
     }
@@ -133,19 +115,7 @@ class Trainer {
             return $this->create_categories( $word );
         }
         
-        $categories = preg_split( "/(\n|- )/", $response );
-
-        // trim
-        $categories = array_map(
-            fn( $item ) => trim( trim( trim( rtrim( $item ) ), "-." ) ),
-            $categories
-        );
-
-        // remove empty categories
-        $categories = array_filter(
-            $categories,
-            fn( $item ) => ! empty( $item )
-        );
+        $categories = $this->filter_list( $response );
 
         return $categories;
     }
@@ -166,19 +136,7 @@ class Trainer {
             return $this->select_top_category( $category );
         }
         
-        $categories = preg_split( "/(\n|- )/", $response );
-
-        // trim
-        $categories = array_map(
-            fn( $item ) => trim( trim( trim( rtrim( $item ) ), "-." ) ),
-            $categories
-        );
-
-        // remove empty categories
-        $categories = array_filter(
-            $categories,
-            fn( $item ) => ! empty( $item )
-        );
+        $categories = $this->filter_list( $response );
 
         $category_name = $categories[0];
 
@@ -194,6 +152,32 @@ class Trainer {
             $category->save();
         }
 
+        echo " - TopCategory: ".$category->name."\n";
+
         return $category->id;
+    }
+
+    protected function filter_list( string $list ): array {
+        $list = preg_split( "/(\n|- |, )/", $list );
+
+        // trim
+        $list = array_map(
+            fn( $item ) => trim( trim( trim( rtrim( $item ) ), "-." ) ),
+            $list
+        );
+
+        // remove empty items
+        $list = array_filter(
+            $list,
+            fn( $item ) => ! empty( $item )
+        );
+
+        // remove numberings
+        $list = array_map(
+            fn( $item ) => trim( preg_replace( '/^[0-9]+/', '', $item ) ),
+            $list
+        );
+
+        return $list;
     }
 }
