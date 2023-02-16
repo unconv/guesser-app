@@ -166,8 +166,6 @@ class Guess {
             'guessed_categories' => $this->guessed_categories,
             'categories' => $this->categories,
         ];
-
-        error_log( "saving session..." );
     }
 
     public function clear() {
@@ -179,8 +177,6 @@ class Guess {
      */
     public static function from_session( PDO $db ): static {
         $data = $_SESSION['guess'] ?? [];
-
-        error_log("loading from session...");
 
         $questions = $data['questions'] ?? [];
         $points = $data['points'] ?? [];
