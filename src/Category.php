@@ -67,7 +67,7 @@ class Category {
         return $category;
     }
 
-    public function fetchThings() {
+    public function fetchThings( int $min = 0 ) {
         $stmt = $this->db->prepare(
             "SELECT DISTINCT thing_id
             FROM    thing_categories
@@ -78,12 +78,13 @@ class Category {
                 WHERE     categories.category_id = :id OR
                           categories.parent_category_id = :id
                 GROUP BY  categories.category_id
-                HAVING    COUNT(*) > 3
+                HAVING    COUNT(*) >= :min
             )"
         );
 
         $stmt->execute( [
-            ":id" => $this->id
+            ":id" => $this->id,
+            ":min" => $min
         ] );
 
         $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -115,12 +116,14 @@ class Category {
             "SELECT *
             FROM    categories
             WHERE   parent_category_id = 0 AND
-                    category_id != :id
+                    category_id != :id AND
+                    category_id != :parent_id
                     ".$exclude_query
         );
 
         $stmt->execute( [
-            ":id" => $this->id
+            ":id" => $this->id,
+            ":parent_id" => $this->parent,
         ] );
 
         $categories = [];
