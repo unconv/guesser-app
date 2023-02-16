@@ -105,7 +105,8 @@ class Guess {
     }
 
     /**
-     * Get confidence as a percentage 0 - 100
+     * Get confidence as a number of points difference
+     * between first and second choice
      */
     public function get_confidence(): int {
         arsort( $this->points );
@@ -115,28 +116,7 @@ class Guess {
 
         $points_difference = $max - $second_max;
 
-        if( ! $points_difference ) {
-            return 0;
-        }
-
-        $current_guess = $this->current_guess();
-
-        if( ! $current_guess ) {
-            return 0;
-        }
-
-        $questions = $current_guess->get_thing()->question_ids();
-        $question_count = count( $questions );
-
-        if( $question_count > 20 ) {
-            $question_count = 20;
-        }
-
-        if( $question_count < 10 ) {
-            $question_count = 10;
-        }
-
-        return intval( $points_difference / $question_count * 100 );
+        return $points_difference;
     }
 
     /**
