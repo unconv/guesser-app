@@ -1,5 +1,8 @@
 <?php
 class Guess {
+    const DEBUG = false;
+    const LOG_FILE = "log.txt";
+
     /**
      * @param PDO $db                   Database connection
      * @param int[] $questions          Array of question ID's
@@ -50,8 +53,18 @@ class Guess {
 
             if ( $yes === true ) {
                 $this->points[$thing_id] += $points_to_add;
+
+                ( Guess::DEBUG && Guess::log(
+                    "Add points to " . Thing::load( $thing_id, $this->db )->name . " (".$this->points[$thing_id].")"
+                ) );
+                
+
             } elseif( $yes === false ) {
                 $this->points[$thing_id] -= $points_to_add*2;
+
+                ( Guess::DEBUG && Guess::log(
+                    "Substract points from " . Thing::load( $thing_id, $this->db )->name . " (".$this->points[$thing_id].")"
+                ) );
             }
         }
 
@@ -227,6 +240,14 @@ class Guess {
             points: $points,
             guessed_categories: $guessed_categories,
             categories: $categories
+        );
+    }
+
+    public static function log( string $text ) {
+        file_put_contents(
+            static::LOG_FILE,
+            $text.PHP_EOL,
+            FILE_APPEND
         );
     }
 }

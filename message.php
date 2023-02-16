@@ -38,6 +38,14 @@ if ( ! empty( $_POST['category_id'] ) ) {
     }
 
     $guess->answer( $category, $answer );
+
+    ( Guess::DEBUG && Guess::log(
+        "Top 10: " . implode( ", ", $guess->top_X( 10 ) )
+    ) );
+
+    ( Guess::DEBUG && Guess::log(
+        "Best guesses: " . implode( ", ", $guess->best_guesses() )
+    ) );
 }
 
 // answer question if answer provided
@@ -52,13 +60,13 @@ if( $_POST['question_id'] ) {
     // answer the question
     $guess->answer( $question, $answer );
 
-    Guess::log(
+    ( Guess::DEBUG && Guess::log(
         "Top 10: " . implode( ", ", $guess->top_X( 10 ) )
-    );
+    ) );
 
-    Guess::log(
+    ( Guess::DEBUG && Guess::log(
         "Best guesses: " . implode( ", ", $guess->best_guesses() )
-    );
+    ) );
 }
 
 // ask for categories first
@@ -66,9 +74,13 @@ if ( ! count( $guess->categories ) || count( $guess->best_guesses() ) >= 5 ) {
     // ask a new question
     $category = Category::fetchRandom( $guess, $db );
 
+    $question_text = "Does it belong to the category '" . $category->name . "'?";
+
+    ( Guess::DEBUG && Guess::log( $question_text ) );
+
     if( $category ) {
         echo json_encode( [
-            "question_text" => "Does it belong to the category '" . $category->name . "'?",
+            "question_text" => $question_text,
             "category_id" => $category->id,
             "question_id" => 0,
             "status" => "success",
@@ -107,6 +119,8 @@ if( ! $question ) {
 
     error();
 }
+
+( Guess::DEBUG && Guess::log( $question->text ) );
 
 // return response
 echo json_encode( [

@@ -7,6 +7,10 @@ class Thing {
         public string $name,
     ) {}
 
+    public function __toString(): string {
+        return $this->name;
+    }
+
     public function save() {
         $stmt = $this->db->prepare(
             "INSERT INTO things (
