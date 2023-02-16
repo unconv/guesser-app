@@ -54,15 +54,19 @@ class Trainer {
         }
 
         $categories = $this->create_categories( $thing_name );
+        $parent = $this->select_top_category( $thing_name );
 
         foreach( $categories as $category_name ) {
+            $category_parent = $this->select_top_category( $category_name );
+            if( $category_parent !== $parent ) {
+                continue;
+            }
+
             echo " - Category: ".$category_name."\n";
 
             $category = Category::by_name( $category_name, $this->db );
 
             if( ! $category ) {
-                $parent = $this->select_top_category( $category_name );
-
                 $category = new Category(
                     id: null,
                     db: $this->db,
