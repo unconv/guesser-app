@@ -51,10 +51,18 @@ if( $_POST['question_id'] ) {
     
     // answer the question
     $guess->answer( $question, $answer );
+
+    Guess::log(
+        "Top 10: " . implode( ", ", $guess->top_X( 10 ) )
+    );
+
+    Guess::log(
+        "Best guesses: " . implode( ", ", $guess->best_guesses() )
+    );
 }
 
 // ask for categories first
-if ( ! count( $guess->categories ) || count( $guess->best_guesses() ) >= 20 ) {
+if ( ! count( $guess->categories ) || count( $guess->best_guesses() ) >= 5 ) {
     // ask a new question
     $category = Category::fetchRandom( $guess, $db );
 
