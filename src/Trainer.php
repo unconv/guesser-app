@@ -99,6 +99,11 @@ class Trainer {
         
         $questions = $this->filter_list( $response );
 
+        // don't allow thing name in question
+        $questions = array_filter( $questions,
+            fn( $question ) => stripos( $question, $word ) === false
+        );
+
         return $questions;
     }
 
