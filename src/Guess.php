@@ -138,6 +138,10 @@ class Guess {
             $question_count = 20;
         }
 
+        if( $question_count < 10 ) {
+            $question_count = 10;
+        }
+
         return intval( $points_difference / $question_count * 100 );
     }
 
