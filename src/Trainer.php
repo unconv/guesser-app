@@ -158,7 +158,7 @@ class Trainer {
     }
 
     protected function filter_list( string $list ): array {
-        $list = preg_split( "/(\n|- |, )/", $list );
+        $list = preg_split( "/(\n|;)/", $list );
 
         // trim
         $list = array_map(
