@@ -97,7 +97,7 @@ if ( $confidence >= 12 ) {
     $thing_name = $guess->current_guess()?->get_thing()->name;
     // return response
     echo json_encode([
-        "question_text" => "You are thinking about: " . $thing_name . " (".$confidence.")",
+        "question_text" => "You are thinking about: " . $thing_name,
         "question_id" => 0,
         "category_id" => 0,
         "status" => "success",
@@ -124,7 +124,7 @@ if( ! $question ) {
 
 // return response
 echo json_encode( [
-    "question_text" => $question->text . " (".$confidence.")",
+    "question_text" => $question->text,
     "question_id" => $question->id,
     "category_id" => 0,
     "status" => "success",
