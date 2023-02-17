@@ -1,7 +1,8 @@
 {
     "require": {
         "orhanerday/open-ai": "^3.4",
-        "league/commonmark": "^2.3"
+        "league/commonmark": "^2.3",
+        "nlp-tools/nlp-tools": "^0.1.3"
     },
     "autoload": {
         "psr-4": {

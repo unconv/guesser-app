@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c96af08313a9f2a1a7bc55ec63f27284",
+    "content-hash": "cee6f064943716a5857421d91b6bdd7f",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -416,6 +416,55 @@
                 "source": "https://github.com/nette/utils/tree/v3.2.9"
             },
             "time": "2023-01-18T03:26:20+00:00"
+        },
+        {
+            "name": "nlp-tools/nlp-tools",
+            "version": "v0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/angeloskath/php-nlp-tools.git",
+                "reference": "bbccab0f3ca7277bdf7b292ba67ca644efd0cefe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/angeloskath/php-nlp-tools/zipball/bbccab0f3ca7277bdf7b292ba67ca644efd0cefe",
+                "reference": "bbccab0f3ca7277bdf7b292ba67ca644efd0cefe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "NlpTools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Angelos Katharopoulos",
+                    "email": "angelos@yourse.gr"
+                }
+            ],
+            "description": "NlpTools is a set of php 5.3+ classes for beginner to semi advanced natural language processing work.",
+            "keywords": [
+                "machine learning",
+                "nlp"
+            ],
+            "support": {
+                "issues": "https://github.com/angeloskath/php-nlp-tools/issues",
+                "source": "https://github.com/angeloskath/php-nlp-tools/tree/master"
+            },
+            "time": "2016-11-03T15:34:42+00:00"
         },
         {
             "name": "orhanerday/open-ai",
