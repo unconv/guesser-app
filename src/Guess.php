@@ -112,6 +112,11 @@ class Guess {
 
         foreach ( array_keys( $this->points ) as $thing_id ) {
             $thing = Thing::load( $thing_id, $this->db );
+
+            if( ! $thing ) {
+                continue;
+            }
+
             $diff = array_diff( $thing->question_ids(), $this->questions );
 
             if ( count( $diff ) ) {
@@ -175,6 +180,11 @@ class Guess {
             }
 
             $thing = Thing::load( $thing_id, $this->db );
+
+            if( ! $thing ) {
+                continue;
+            }
+
             $diff = array_diff( $thing->question_ids(), $this->questions );
 
             if ( count( $diff ) ) {

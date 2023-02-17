@@ -26,7 +26,7 @@ class Thing {
         $this->id = $this->db->lastInsertId();
     }
 
-    public static function load( int $id, PDO $db ): static|null {
+    public static function load( int $id, PDO $db ): Thing|null {
         $stmt = $db->prepare(
             "SELECT * FROM things WHERE thing_id = :thing_id"
         );
