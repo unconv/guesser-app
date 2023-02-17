@@ -74,11 +74,11 @@ if ( ! count( $guess->categories ) || count( $guess->best_guesses() ) >= 5 ) {
     // ask a new question
     $category = Category::fetchRandom( $guess, $db );
 
-    $question_text = "Does it belong to the category '" . $category->name . "'?";
-
-    ( Guess::DEBUG && Guess::log( $question_text ) );
-
     if( $category ) {
+        $question_text = "Does it belong to the category '" . $category->name . "'?";
+
+        ( Guess::DEBUG && Guess::log( $question_text ) );
+
         echo json_encode( [
             "question_text" => $question_text,
             "category_id" => $category->id,
