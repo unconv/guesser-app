@@ -1,14 +1,10 @@
 <?php
-use ChatWTF\CategorizerChatWTF;
-use ChatWTF\QuestionerChatWTF;
-use ChatWTF\TopCategorizerChatWTF;
-
 class Trainer {
     public function __construct(
         protected PDO $db,
-        protected QuestionerChatWTF $questioner,
-        protected CategorizerChatWTF $categorizer,
-        protected TopCategorizerChatWTF $topcategorizer,
+        protected Questioner $questioner,
+        protected Categorizer $categorizer,
+        protected TopCategorizer $topcategorizer,
     ) {
 
     }

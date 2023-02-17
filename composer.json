@@ -6,7 +6,6 @@
     },
     "autoload": {
         "psr-4": {
-            "ChatWTF\\": "src/",
             "": "src/"
         }
     }

@@ -8,9 +8,6 @@
 
 ( PHP_SAPI !== 'cli' || isset( $_SERVER['HTTP_USER_AGENT'] ) ) && exit;
 
-use ChatWTF\TopCategorizerChatWTF;
-use ChatWTF\CategorizerChatWTF;
-use ChatWTF\QuestionerChatWTF;
 use Orhanerday\OpenAi\OpenAi;
 
 require_once( __DIR__ . "/vendor/autoload.php" );
@@ -18,9 +15,9 @@ require_once( __DIR__ . "/db.php" );
 
 $openai = new OpenAi( file_get_contents( __DIR__ . "/api_key.txt" ) );
 
-$questioner = new QuestionerChatWTF( $openai );
-$categorizer = new CategorizerChatWTF( $openai );
-$topcategorizer = new TopCategorizerChatWTF( $openai );
+$questioner = new Questioner( $openai );
+$categorizer = new Categorizer( $openai );
+$topcategorizer = new TopCategorizer( $openai );
 
 $trainer = new Trainer(
     db: $db,

@@ -1,9 +1,7 @@
 <?php
-namespace ChatWTF;
-
 use Orhanerday\OpenAi\OpenAi;
 
-class TopCategorizerChatWTF extends ChatWTF
+class TopCategorizer extends ChatWTF
 {
     public function __construct(
         protected OpenAi $open_ai_api,

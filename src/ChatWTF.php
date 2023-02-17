@@ -1,6 +1,4 @@
 <?php
-namespace ChatWTF;
-
 use Orhanerday\OpenAi\OpenAi;
 
 class ChatWTF

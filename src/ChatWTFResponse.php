@@ -1,6 +1,4 @@
 <?php
-namespace ChatWTF;
-
 use League\CommonMark\CommonMarkConverter;
 
 class ChatWTFResponse
