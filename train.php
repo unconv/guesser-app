@@ -33,6 +33,8 @@ $words = preg_split( "/[,;\n]/", file_get_contents( "list.txt" ) );
 $words = array_unique( $words );
 shuffle( $words );
 
+echo "Training " . count( $words ) . " words...\n";
+
 foreach( $words as $word ) {
     $word = trim( rtrim( $word ) );
 
