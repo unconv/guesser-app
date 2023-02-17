@@ -93,7 +93,7 @@ class Guess {
         foreach ( $this->points as $thing_id => $score ) {
             if ( $score > $best_score ) {
                 $best_score = $score;
-                $best_answer = Answer::load( $thing_id, $this->db );
+                $best_answer = $thing_id;
             }
         }
 
@@ -101,7 +101,7 @@ class Guess {
             return null;
         }
 
-        return $best_answer;
+        return Answer::load( $best_answer, $this->db );
     }
 
     /**
