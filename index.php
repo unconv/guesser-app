@@ -8,6 +8,7 @@ require_once( __DIR__ . "/vendor/autoload.php" );
 <head>
     <title>GuesserApp</title>
     <link rel="stylesheet" href="style.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <div id="wrapper">

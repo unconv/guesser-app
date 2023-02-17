@@ -21,6 +21,7 @@ body {
     border-radius: 10px;
     background: #ccc;
     cursor: pointer;
+    margin: 5px;
 }
 
 #buttons button#yes {
@@ -69,7 +70,7 @@ body, textarea {
 .chat-message {
     border-radius: 10px;
     padding: 5px 15px;
-    margin: 10px 0;
+    margin: 10px;
     line-height: 1.5em;
 }
 
@@ -116,4 +117,54 @@ code {
 
 a {
     color: #fff;
+}
+
+@media (max-height: 500px) {
+    #wrapper {
+        height: 100%;
+    }
+
+    #chat-messages {
+        height: calc( 100vh - 180px );
+    }
+
+    body {
+        display: block;
+    }
+}
+
+@media (max-width: 800px) {
+    #chat-messages {
+        height: calc( 100vh - 180px );
+    }
+
+    body {
+        font-size: 0.8em;
+        display: block;
+    }
+
+    #wrapper {
+        height: 100%;
+    }
+
+    h1 {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-height: 250px) {
+    #wrapper {
+        height: 100%;
+    }
+
+    #chat-messages {
+        height: 100px;
+    }
+
+    #buttons {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
