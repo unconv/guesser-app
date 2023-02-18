@@ -1,11 +1,23 @@
 <?php
-require_once( __DIR__ . "/vendor/autoload.php" );
-require_once( __DIR__ . "/error_handler.php" );
-require_once( __DIR__ . "/db.php" );
-
-session_start();
+require_once( __DIR__ . "/includes.php" );
 
 header( "Content-Type: application/json" );
+
+if( ! isset( $_SESSION['time'] ) ) {
+    $_SESSION['time'] = time();
+
+    die( json_encode( [
+        "status" => "init",
+    ] ) );
+}
+
+if( $_SESSION['time'] >= time() ) {
+    die( json_encode( [
+        "status" => "wait",
+    ] ) );
+}
+
+$_SESSION['time'] = time();
 
 function error() {
     die( json_encode( [

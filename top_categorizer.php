@@ -10,10 +10,9 @@
 
 use Orhanerday\OpenAi\OpenAi;
 
-require_once( __DIR__ . "/vendor/autoload.php" );
-require_once( __DIR__ . "/db.php" );
+require_once( __DIR__ . "/includes.php" );
 
-$openai = new OpenAi( file_get_contents( __DIR__ . "/api_key.txt" ) );
+$openai = new OpenAi( $config['openai_api_key'] );
 
 $questioner = new Questioner( $openai );
 $categorizer = new Categorizer( $openai );

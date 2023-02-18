@@ -6,18 +6,28 @@ const message_list = document.querySelector( "#chat-messages" );
 
 let question_id = 0;
 let category_id = 0;
+let sending = false;
 
 yes.addEventListener( "click", function() {
+    if( sending ) {
+        return false;
+    }
     add_message( "outgoing", "Yes" );
     send_message( "yes" );
 } );
 
 no.addEventListener( "click", function() {
+    if( sending ) {
+        return false;
+    }
     add_message( "outgoing", "No" );
     send_message( "no" );
 } );
 
 idk.addEventListener( "click", function() {
+    if( sending ) {
+        return false;
+    }
     add_message( "outgoing", "I don't know" );
     send_message( "idk" );
 } );
@@ -29,6 +39,7 @@ startover.addEventListener( "click", function() {
 } );
 
 function send_message( answer ) {
+    sending = true;
     fetch( "message.php", {
         method: "POST",
         headers: {
@@ -55,10 +66,22 @@ function send_message( answer ) {
                 );
                 document.querySelector( "#start-over" ).style.display = "none";
             }
+
+            sending = false;
+        } else if( json.status == "init" ) {
+            send_message( answer );
+        } else if( json.status == "wait" ) {
+            setTimeout( function() {
+                send_message( answer );
+            }, 1000 );
+        } else {
+            add_message( "incoming", "Sorry, there was an error..." );
+            sending = false;
         }
     } )
     .catch( error => {
         add_message( "incoming", "Sorry, there was an error..." );
+        sending = false;
     } );
 }
 

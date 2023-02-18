@@ -1,8 +1,6 @@
 <?php
-session_start();
+require_once( __DIR__ . "/includes.php" );
 $_SESSION['guess'] = "";
-
-require_once( __DIR__ . "/vendor/autoload.php" );
 ?><!DOCTYPE html>
 <html>
 <head>

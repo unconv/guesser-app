@@ -12,8 +12,7 @@
 use NlpTools\Similarity\CosineSimilarity;
 use NlpTools\Tokenizers\WhitespaceTokenizer;
 
-require_once( __DIR__ . "/vendor/autoload.php" );
-require_once( __DIR__ . "/db.php" );
+require_once( __DIR__ . "/includes.php" );
 
 function normalize_text( string $text ): string {
     $text = strtolower( $text );
